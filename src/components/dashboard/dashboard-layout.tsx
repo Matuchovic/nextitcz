@@ -1,9 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import type { User } from '@/types';
 import { cn, getInitials } from '@/lib/utils';
+import { createClient } from '@/lib/supabase';
+import { toast } from 'sonner';
 
 const NAV_SECTIONS = [
   {
@@ -39,24 +41,24 @@ interface DashboardLayoutProps {
 
 export function DashboardLayout({ user, children }: DashboardLayoutProps) {
   const pathname = usePathname();
+  const router = useRouter();
+
+  async function handleSignOut() {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    toast.success('Odhlášení úspěšné');
+    router.push('/auth/login');
+    router.refresh();
+  }
 
   return (
-    <div className="flex min-h-screen pt-0">
-      {/* Sidebar */}
-      <aside
-        className="hidden md:flex flex-col w-[220px] bg-[rgba(10,10,10,0.9)] border-r border-white/[0.06] backdrop-blur-xl fixed top-0 left-0 h-full z-40 pt-20"
-        role="navigation"
-        aria-label="Dashboard navigace"
-      >
-        {/* Workspace header */}
-        <div className="px-4 pb-5 border-b border-white/[0.05]">
+    <div className="flex min-h-screen">
+      <aside className="hidden md:flex flex-col w-[220px] bg-[rgba(10,10,10,0.9)] border-r border-white/[0.06] fixed top-0 left-0 h-full z-40 pt-4">
+        <div className="px-4 pb-4 border-b border-white/[0.05]">
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-md bg-gradient-to-br from-[var(--accent)] to-[var(--accent2)] flex items-center justify-center text-[10px] font-bold">
-              NX
-            </div>
+            <div className="w-6 h-6 rounded-md bg-gradient-to-br from-[var(--accent)] to-[var(--accent2)] flex items-center justify-center text-[10px] font-bold">NX</div>
             <span className="text-xs font-semibold tracking-tight">Workspace</span>
           </div>
-          {/* User info */}
           <div className="flex items-center gap-2 mt-4 px-1">
             <div className="w-7 h-7 rounded-full bg-gradient-to-br from-[var(--accent)] to-[var(--accent2)] flex items-center justify-center text-[10px] font-semibold flex-shrink-0">
               {getInitials(user.name)}
@@ -68,7 +70,6 @@ export function DashboardLayout({ user, children }: DashboardLayoutProps) {
           </div>
         </div>
 
-        {/* Nav sections */}
         <div className="flex-1 overflow-y-auto py-4 px-3 space-y-5">
           {NAV_SECTIONS.map(section => (
             <div key={section.label}>
@@ -101,17 +102,18 @@ export function DashboardLayout({ user, children }: DashboardLayoutProps) {
           ))}
         </div>
 
-        {/* Sign out */}
         <div className="p-3 border-t border-white/[0.05]">
-          <button className="w-full flex items-center gap-2 px-2.5 py-2 rounded-lg text-sm text-[var(--gray-600)] hover:text-[#f87171] hover:bg-red-500/[0.05] transition-all">
+          <button
+            onClick={handleSignOut}
+            className="w-full flex items-center gap-2 px-2.5 py-2 rounded-lg text-sm text-[var(--gray-600)] hover:text-[#f87171] hover:bg-red-500/[0.05] transition-all"
+          >
             <span>🚪</span>
             <span>Odhlásit</span>
           </button>
         </div>
       </aside>
 
-      {/* Main content */}
-      <main className="flex-1 md:ml-[220px] bg-[var(--gray-950)] min-h-screen pt-14" role="main">
+      <main className="flex-1 md:ml-[220px] bg-[var(--gray-950)] min-h-screen">
         {children}
       </main>
     </div>
