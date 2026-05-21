@@ -6,7 +6,7 @@ import { FeaturesSection } from '@/components/sections/features-section';
 
 export default function HomePage() {
   return (
-    <>
+    <div className="bg-black min-h-screen">
       <Navbar />
       <main>
         <HeroSection />
@@ -14,6 +14,6 @@ export default function HomePage() {
         <FeaturesSection />
       </main>
       <Footer />
-    </>
+    </div>
   );
 }
