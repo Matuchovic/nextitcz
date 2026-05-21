@@ -1,0 +1,114 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum UserRole {
+  admin
+  dev
+  user
+}
+
+enum ProjectStatus {
+  live
+  dev
+  review
+  archived
+}
+
+enum DeploymentStatus {
+  pending
+  building
+  success
+  failed
+}
+
+enum DeploymentEnvironment {
+  production
+  staging
+  preview
+}
+
+model Profile {
+  id         String    @id @default(uuid())
+  email      String    @unique
+  name       String
+  role       UserRole  @default(user)
+  avatar_url String?
+  company    String?
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+
+  projects    Project[]
+  deployments Deployment[]
+  api_keys    ApiKey[]
+
+  @@map("profiles")
+}
+
+model Project {
+  id          String        @id @default(uuid())
+  name        String
+  description String?
+  status      ProjectStatus @default(dev)
+  tech_stack  String[]
+  progress    Int           @default(0)
+  deadline    DateTime?
+  owner_id    String
+  created_at  DateTime      @default(now())
+  updated_at  DateTime      @updatedAt
+
+  owner       Profile       @relation(fields: [owner_id], references: [id], onDelete: Cascade)
+  deployments Deployment[]
+
+  @@map("projects")
+}
+
+model Deployment {
+  id           String                @id @default(uuid())
+  project_id   String
+  version      String
+  status       DeploymentStatus      @default(pending)
+  environment  DeploymentEnvironment @default(preview)
+  deployed_by  String
+  created_at   DateTime              @default(now())
+
+  project  Project @relation(fields: [project_id], references: [id], onDelete: Cascade)
+  deployer Profile @relation(fields: [deployed_by], references: [id])
+
+  @@map("deployments")
+}
+
+model ApiKey {
+  id          String    @id @default(uuid())
+  name        String
+  key_hash    String    @unique
+  key_prefix  String
+  permissions String[]
+  last_used   DateTime?
+  expires_at  DateTime?
+  owner_id    String
+  created_at  DateTime  @default(now())
+
+  owner Profile @relation(fields: [owner_id], references: [id], onDelete: Cascade)
+
+  @@map("api_keys")
+}
+
+model ContactSubmission {
+  id           String   @id @default(uuid())
+  name         String
+  email        String
+  project_type String
+  message      String
+  company      String?
+  budget       String?
+  created_at   DateTime @default(now())
+
+  @@map("contact_submissions")
+}

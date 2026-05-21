@@ -1,0 +1,84 @@
+{
+  "nav": {
+    "services": "Služby",
+    "pricing": "Ceny",
+    "contact": "Kontakt",
+    "dashboard": "Dashboard",
+    "login": "Přihlásit",
+    "register": "Začít zdarma"
+  },
+  "hero": {
+    "title1": "Platformy",
+    "title2": "nové generace",
+    "title3": "pro váš byznys.",
+    "subtitle": "Vyvíjíme prémiové webové platformy, mobilní aplikace a systémy poháněné umělou inteligencí — přesně tak, jak si představujete budoucnost vašeho podnikání.",
+    "cta_primary": "Spustit projekt",
+    "cta_secondary": "Prohlédnout demo",
+    "badge": "Platforma v2.4.1 · Dostupnost 99.99%"
+  },
+  "features": {
+    "tag": "MOŽNOSTI",
+    "title": "Technologie. Přesnost. Výsledky.",
+    "subtitle": "Komplexní digitální řešení navržená pro ambiciózní firmy, které hledají skutečnou konkurenční výhodu.",
+    "items": {
+      "edge": { "name": "Edge Computing", "desc": "Globální CDN infrastruktura se sub-20ms latencí na všech kontinentech." },
+      "ai": { "name": "AI Integrace", "desc": "Nativní propojení s GPT-4, Claude, Gemini a vlastními modely přímo ve vaší aplikaci." },
+      "security": { "name": "Bezpečnost", "desc": "SOC 2 Type II certifikace, end-to-end šifrování, zero-trust architektura." },
+      "analytics": { "name": "Analytika", "desc": "Real-time dashboardy s prediktivními metrikami a AI-řízenými doporučeními." },
+      "cicd": { "name": "CI/CD Pipeline", "desc": "Automatizované nasazení s nulovým downtime a okamžitým rollback mechanismem." },
+      "i18n": { "name": "Lokalizace", "desc": "Plná i18n podpora pro 40+ jazyků s automatickým překladem rozhraní." }
+    }
+  },
+  "services": {
+    "tag": "PORTFOLIO",
+    "title": "Naše služby",
+    "subtitle": "Od návrhu UX po plnou produkci — pokrýváme celý životní cyklus vašeho digitálního produktu."
+  },
+  "pricing": {
+    "tag": "CENÍK",
+    "title": "Transparentní ceny",
+    "subtitle": "Bez skrytých poplatků. Vyberte plán, který odpovídá velikosti vašeho byznysu.",
+    "monthly": "Měsíčně",
+    "annual": "Ročně",
+    "save": "Ušetříte 20%"
+  },
+  "contact": {
+    "tag": "KONTAKT",
+    "title": "Pojďme spolupracovat",
+    "subtitle": "Máte projekt? Ozvěte se — odpovíme do 2 hodin v pracovní době."
+  },
+  "auth": {
+    "login_title": "Vítejte zpět",
+    "login_subtitle": "Přihlaste se k vašemu NEXTIT účtu",
+    "register_title": "Vytvořit účet",
+    "register_subtitle": "Spusťte svůj první projekt zdarma",
+    "email": "EMAIL",
+    "password": "HESLO",
+    "name": "CELÉ JMÉNO",
+    "company": "SPOLEČNOST",
+    "company_optional": "(volitelné)",
+    "login_btn": "Přihlásit se",
+    "register_btn": "Zaregistrovat se",
+    "forgot": "Zapomenuté heslo?",
+    "no_account": "Nemáte účet?",
+    "have_account": "Máte účet?",
+    "sign_up": "Zaregistrujte se",
+    "sign_in": "Přihlaste se",
+    "or": "NEBO",
+    "google": "Pokračovat přes Google",
+    "github": "Pokračovat přes GitHub"
+  },
+  "dashboard": {
+    "greeting": "Dobrý den",
+    "revenue": "PŘÍJMY / MĚS.",
+    "users": "AKTIVNÍ UŽIVATELÉ",
+    "projects": "PROJEKTY LIVE",
+    "latency": "LATENCE API P99",
+    "new_project": "+ Nový projekt",
+    "active_projects": "Aktivní projekty"
+  },
+  "footer": {
+    "tagline": "Building next-generation digital platforms.",
+    "rights": "Všechna práva vyhrazena."
+  }
+}

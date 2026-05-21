@@ -1,0 +1,32 @@
+{
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "outputDirectory": ".next",
+  "regions": ["fra1"],
+  "env": {
+    "NEXT_PUBLIC_SUPABASE_URL": "@nextit-supabase-url",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "@nextit-supabase-anon-key",
+    "SUPABASE_SERVICE_ROLE_KEY": "@nextit-supabase-service-role",
+    "JWT_SECRET": "@nextit-jwt-secret",
+    "NEXT_PUBLIC_API_URL": "@nextit-api-url",
+    "API_SECRET_KEY": "@nextit-api-secret",
+    "RESEND_API_KEY": "@nextit-resend-key"
+  },
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-store" }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-DNS-Prefetch-Control", "value": "on" },
+        { "key": "Strict-Transport-Security", "value": "max-age=63072000; includeSubDomains; preload" }
+      ]
+    }
+  ]
+}

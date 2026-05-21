@@ -1,0 +1,84 @@
+{
+  "nav": {
+    "services": "Services",
+    "pricing": "Pricing",
+    "contact": "Contact",
+    "dashboard": "Dashboard",
+    "login": "Sign in",
+    "register": "Get started"
+  },
+  "hero": {
+    "title1": "Next-generation",
+    "title2": "digital platforms",
+    "title3": "for your business.",
+    "subtitle": "We build premium web platforms, mobile applications and AI-powered systems — exactly as you envision the future of your business.",
+    "cta_primary": "Start a project",
+    "cta_secondary": "View demo",
+    "badge": "Platform v2.4.1 · 99.99% uptime"
+  },
+  "features": {
+    "tag": "CAPABILITIES",
+    "title": "Technology. Precision. Results.",
+    "subtitle": "Comprehensive digital solutions designed for ambitious companies seeking a genuine competitive advantage.",
+    "items": {
+      "edge": { "name": "Edge Computing", "desc": "Global CDN infrastructure with sub-20ms latency across all continents." },
+      "ai": { "name": "AI Integration", "desc": "Native connectivity with GPT-4, Claude, Gemini and custom models directly in your app." },
+      "security": { "name": "Security", "desc": "SOC 2 Type II certification, end-to-end encryption, zero-trust architecture." },
+      "analytics": { "name": "Analytics", "desc": "Real-time dashboards with predictive metrics and AI-driven recommendations." },
+      "cicd": { "name": "CI/CD Pipeline", "desc": "Automated deployments with zero downtime and instant rollback mechanisms." },
+      "i18n": { "name": "Localization", "desc": "Full i18n support for 40+ languages with automatic interface translation." }
+    }
+  },
+  "services": {
+    "tag": "PORTFOLIO",
+    "title": "Our services",
+    "subtitle": "From UX design to full production — we cover the entire lifecycle of your digital product."
+  },
+  "pricing": {
+    "tag": "PRICING",
+    "title": "Transparent pricing",
+    "subtitle": "No hidden fees. Choose the plan that fits the size of your business.",
+    "monthly": "Monthly",
+    "annual": "Annually",
+    "save": "Save 20%"
+  },
+  "contact": {
+    "tag": "CONTACT",
+    "title": "Let's work together",
+    "subtitle": "Have a project? Reach out — we respond within 2 hours during business hours."
+  },
+  "auth": {
+    "login_title": "Welcome back",
+    "login_subtitle": "Sign in to your NEXTIT account",
+    "register_title": "Create account",
+    "register_subtitle": "Launch your first project for free",
+    "email": "EMAIL",
+    "password": "PASSWORD",
+    "name": "FULL NAME",
+    "company": "COMPANY",
+    "company_optional": "(optional)",
+    "login_btn": "Sign in",
+    "register_btn": "Create account",
+    "forgot": "Forgot password?",
+    "no_account": "Don't have an account?",
+    "have_account": "Already have an account?",
+    "sign_up": "Sign up",
+    "sign_in": "Sign in",
+    "or": "OR",
+    "google": "Continue with Google",
+    "github": "Continue with GitHub"
+  },
+  "dashboard": {
+    "greeting": "Good day",
+    "revenue": "REVENUE / MO.",
+    "users": "ACTIVE USERS",
+    "projects": "PROJECTS LIVE",
+    "latency": "API LATENCY P99",
+    "new_project": "+ New project",
+    "active_projects": "Active projects"
+  },
+  "footer": {
+    "tagline": "Building next-generation digital platforms.",
+    "rights": "All rights reserved."
+  }
+}

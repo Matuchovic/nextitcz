@@ -1,0 +1,201 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Fonts ─────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,200;0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=DM+Mono:wght@300;400;500&display=swap');
+
+/* ─── CSS Variables ─────────────────────────────────────────── */
+:root {
+  --black:        #000000;
+  --white:        #ffffff;
+  --gray-950:     #080808;
+  --gray-900:     #0f0f0f;
+  --gray-800:     #1a1a1a;
+  --gray-700:     #262626;
+  --gray-600:     #404040;
+  --gray-500:     #6b6b6b;
+  --gray-400:     #9a9a9a;
+  --gray-300:     #c4c4c4;
+  --gray-200:     #e0e0e0;
+  --accent:       #4f8ef7;
+  --accent-hover: #7cb9ff;
+  --accent2:      #7c3aed;
+  --accent3:      #06d6a0;
+  --glow:         rgba(79, 142, 247, 0.15);
+  --background:   #000000;
+  --foreground:   #ffffff;
+}
+
+/* ─── Base ───────────────────────────────────────────────────── */
+* { box-sizing: border-box; }
+
+html {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: var(--black);
+  color: var(--white);
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: var(--gray-900); }
+::-webkit-scrollbar-thumb { background: var(--gray-700); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--gray-600); }
+
+/* ─── Selection ─────────────────────────────────────────────── */
+::selection { background: rgba(79, 142, 247, 0.3); color: var(--white); }
+
+/* ─── Glass Utilities ───────────────────────────────────────── */
+@layer components {
+  .glass {
+    background: rgba(255, 255, 255, 0.04);
+    border: 0.5px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px) saturate(1.5);
+    -webkit-backdrop-filter: blur(20px) saturate(1.5);
+  }
+
+  .glass-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 0.5px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .glass-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+  }
+
+  .glass-card:hover {
+    border-color: rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.06);
+    transform: translateY(-1px);
+  }
+
+  .glass-nav {
+    background: rgba(10, 10, 10, 0.75);
+    backdrop-filter: blur(20px) saturate(1.5);
+    -webkit-backdrop-filter: blur(20px) saturate(1.5);
+    border: 0.5px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 1px 40px rgba(0,0,0,0.6), 0 0 0 0.5px rgba(255,255,255,0.04) inset;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent), #3563c7);
+    border: none;
+    color: var(--white);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 0 20px rgba(79,142,247,0.3), 0 2px 8px rgba(0,0,0,0.4);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 0 30px rgba(79,142,247,0.5), 0 4px 16px rgba(0,0,0,0.5);
+  }
+
+  .btn-ghost {
+    background: rgba(255, 255, 255, 0.04);
+    border: 0.5px solid rgba(255, 255, 255, 0.1);
+    color: var(--gray-300);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--white);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .gradient-text-muted {
+    background: linear-gradient(135deg, var(--gray-300) 0%, var(--gray-500) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .noise-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    pointer-events: none;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 128px;
+  }
+
+  .status-live {
+    @apply text-xs font-mono px-2 py-0.5 rounded;
+    background: rgba(6, 214, 160, 0.12);
+    color: var(--accent3);
+    border: 0.5px solid rgba(6, 214, 160, 0.2);
+  }
+
+  .status-dev {
+    @apply text-xs font-mono px-2 py-0.5 rounded;
+    background: rgba(79, 142, 247, 0.12);
+    color: var(--accent);
+    border: 0.5px solid rgba(79, 142, 247, 0.2);
+  }
+
+  .status-review {
+    @apply text-xs font-mono px-2 py-0.5 rounded;
+    background: rgba(245, 158, 11, 0.12);
+    color: #f59e0b;
+    border: 0.5px solid rgba(245, 158, 11, 0.2);
+  }
+
+  .section-tag {
+    @apply text-xs font-mono tracking-widest uppercase mb-3;
+    color: var(--accent);
+  }
+
+  .kpi-accent-blue {
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  }
+  .kpi-accent-purple {
+    background: linear-gradient(90deg, transparent, var(--accent2), transparent);
+  }
+  .kpi-accent-green {
+    background: linear-gradient(90deg, transparent, var(--accent3), transparent);
+  }
+  .kpi-accent-amber {
+    background: linear-gradient(90deg, transparent, #f59e0b, transparent);
+  }
+}
+
+/* ─── Lenis smooth scroll ────────────────────────────────────── */
+html.lenis, html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
