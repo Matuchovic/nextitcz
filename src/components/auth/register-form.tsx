@@ -3,39 +3,32 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { toast } from 'sonner';
 import { createClient } from '@/lib/supabase';
-
-const schema = z.object({
-  name: z.string().min(2, 'Zadejte celé jméno'),
-  email: z.string().email('Neplatný email'),
-  password: z.string().min(8, 'Heslo musí mít alespoň 8 znaků'),
-  company: z.string().optional(),
-});
-
-type FormData = z.infer<typeof schema>;
+import { toast } from 'sonner';
 
 export function RegisterForm() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [company, setCompany] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const supabase = createClient();
 
-  const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
-    resolver: zodResolver(schema),
-  });
-
-  async function onSubmit(data: FormData) {
+  async function onSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (password.length < 8) {
+      toast.error('Heslo musí mít alespoň 8 znaků');
+      return;
+    }
     setLoading(true);
     try {
-      const { error } = await supabase.auth.signUp({
-        email: data.email,
-        password: data.password,
+      const supabase = createClient();
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
         options: {
-          data: { name: data.name, company: data.company },
-          emailRedirectTo: `${window.location.origin}/auth/callback`,
+          data: { name, company },
+          emailRedirectTo: `${window.location.origin}/api/auth/callback`,
         },
       });
 
@@ -44,41 +37,79 @@ export function RegisterForm() {
         return;
       }
 
-      toast.success('Účet vytvořen! Zkontrolujte email pro potvrzení.');
-      router.push('/dashboard');
+      // Pokud je email confirm vypnutý, rovnou přihlásíme
+      if (data.session) {
+        toast.success('Účet vytvořen! Vítejte.');
+        router.push('/dashboard');
+        router.refresh();
+        return;
+      }
+
+      // Pokud je email confirm zapnutý
+      toast.success('Zkontrolujte email pro potvrzení účtu.');
+      router.push('/auth/login');
     } catch {
-      toast.error('Nastala neočekávaná chyba.');
+      toast.error('Nastala chyba. Zkuste to znovu.');
     } finally {
       setLoading(false);
     }
   }
-
-  const fields = [
-    { name: 'name', label: 'CELÉ JMÉNO', type: 'text', placeholder: 'Jan Novák', autoComplete: 'name' },
-    { name: 'email', label: 'PRACOVNÍ EMAIL', type: 'email', placeholder: 'jan@firma.cz', autoComplete: 'email' },
-    { name: 'password', label: 'HESLO', type: 'password', placeholder: 'Min. 8 znaků', autoComplete: 'new-password' },
-    { name: 'company', label: 'SPOLEČNOST (volitelné)', type: 'text', placeholder: 'ACME s.r.o.', autoComplete: 'organization' },
-  ] as const;
 
   return (
     <>
       <h1 className="text-[22px] font-bold tracking-[-0.8px] mb-1.5">Vytvořit účet</h1>
       <p className="text-[13px] text-[var(--gray-500)] mb-7">Spusťte svůj první projekt zdarma</p>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-3.5" noValidate>
-        {fields.map(f => (
-          <div key={f.name}>
-            <label className="block text-[11px] font-mono text-[var(--gray-500)] tracking-wide mb-1.5">{f.label}</label>
-            <input
-              {...register(f.name)}
-              type={f.type}
-              autoComplete={f.autoComplete}
-              placeholder={f.placeholder}
-              className="w-full px-3 py-2.5 bg-white/[0.04] border border-white/[0.1] rounded-lg text-sm text-white placeholder-[var(--gray-700)] outline-none focus:border-[var(--accent)]/50 focus:ring-1 focus:ring-[var(--accent)]/20 focus:bg-white/[0.06] transition-all font-sans"
-            />
-            {errors[f.name] && <p className="text-[11px] text-red-400 mt-1">{errors[f.name]?.message}</p>}
-          </div>
-        ))}
+      <form onSubmit={onSubmit} className="space-y-3.5" noValidate>
+        <div>
+          <label className="block text-[11px] font-mono text-[var(--gray-500)] tracking-wide mb-1.5">CELÉ JMÉNO</label>
+          <input
+            type="text"
+            value={name}
+            onChange={e => setName(e.target.value)}
+            placeholder="Jan Novák"
+            autoComplete="name"
+            required
+            className="w-full px-3 py-2.5 bg-white/[0.04] border border-white/[0.1] rounded-lg text-sm text-white placeholder-[var(--gray-700)] outline-none focus:border-[var(--accent)]/50 focus:ring-1 focus:ring-[var(--accent)]/20 transition-all font-sans"
+          />
+        </div>
+        <div>
+          <label className="block text-[11px] font-mono text-[var(--gray-500)] tracking-wide mb-1.5">PRACOVNÍ EMAIL</label>
+          <input
+            type="email"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            placeholder="jan@firma.cz"
+            autoComplete="email"
+            required
+            className="w-full px-3 py-2.5 bg-white/[0.04] border border-white/[0.1] rounded-lg text-sm text-white placeholder-[var(--gray-700)] outline-none focus:border-[var(--accent)]/50 focus:ring-1 focus:ring-[var(--accent)]/20 transition-all font-sans"
+          />
+        </div>
+        <div>
+          <label className="block text-[11px] font-mono text-[var(--gray-500)] tracking-wide mb-1.5">HESLO</label>
+          <input
+            type="password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            placeholder="Min. 8 znaků"
+            autoComplete="new-password"
+            required
+            className="w-full px-3 py-2.5 bg-white/[0.04] border border-white/[0.1] rounded-lg text-sm text-white placeholder-[var(--gray-700)] outline-none focus:border-[var(--accent)]/50 focus:ring-1 focus:ring-[var(--accent)]/20 transition-all font-sans"
+          />
+        </div>
+        <div>
+          <label className="block text-[11px] font-mono text-[var(--gray-500)] tracking-wide mb-1.5">
+            SPOLEČNOST <span className="text-[var(--gray-700)]">(volitelné)</span>
+          </label>
+          <input
+            type="text"
+            value={company}
+            onChange={e => setCompany(e.target.value)}
+            placeholder="ACME s.r.o."
+            autoComplete="organization"
+            className="w-full px-3 py-2.5 bg-white/[0.04] border border-white/[0.1] rounded-lg text-sm text-white placeholder-[var(--gray-700)] outline-none focus:border-[var(--accent)]/50 focus:ring-1 focus:ring-[var(--accent)]/20 transition-all font-sans"
+          />
+        </div>
 
         <button
           type="submit"
@@ -91,9 +122,9 @@ export function RegisterForm() {
 
       <p className="text-[10px] text-[var(--gray-700)] text-center mt-4 leading-relaxed">
         Registrací souhlasíte s{' '}
-        <Link href="/terms" className="text-[var(--gray-600)] hover:text-[var(--gray-400)] transition-colors">Podmínkami použití</Link>
+        <Link href="/terms" className="text-[var(--gray-600)] hover:text-[var(--gray-400)]">Podmínkami použití</Link>
         {' '}a{' '}
-        <Link href="/privacy" className="text-[var(--gray-600)] hover:text-[var(--gray-400)] transition-colors">Zásadami ochrany soukromí</Link>.
+        <Link href="/privacy" className="text-[var(--gray-600)] hover:text-[var(--gray-400)]">Zásadami ochrany soukromí</Link>.
       </p>
 
       <p className="text-center text-xs text-[var(--gray-600)] mt-4">
